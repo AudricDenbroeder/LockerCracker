@@ -218,15 +218,15 @@ Voici aussi ce modèle final en réel, avec le cadenas, le servomoteur et aussi 
 
 \section{Informatique}
 
-De base je n'avais pas beaucoup de chose à faire pour l'informatique, si ce n'est coder le code pour contrôler le servomoteur. Comme tous les servomoteurs il est commandé par des impulsions et des délais, il y a peu de documentation à son sujet, je savais juste qu'il était commandable entre 500us et 2500us. Si l'on sait qu'un servomoteur à 3 états, à savoir une rotation dans le sens horaire, une autre dans le sens anti horaire et un état "stop". On peut supposer que ces 3 états ont une impulsion différente et séparé, j'en ai conclu qu'ils étaient à 1000us, 1500us et 2000us. Un autre document (Voir bibliographie) confirmait ma supposition. Un code simple a donc été fait pour contrôler le servomoteur sur arduino.
+De base, je n'avais pas beaucoup de chose à faire pour l'informatique, si ce n'est coder le code pour contrôler le servomoteur. Comme tous les servomoteurs, il est commandé par des impulsions et des délais, il y a peu de documentation à son sujet, je savais juste qu'il était commandable entre 500us et 2500us. Si l'on sait qu'un servomoteur à 3 états, à savoir une rotation dans le sens horaire, une autre dans le sens anti horaire et un état "stop". On peut supposer que ces 3 états ont une impulsion différente et séparé, j'en ai conclu qu'ils étaient à 1000us, 1500us et 2000us. Un autre document (voir bibliographie) confirmait ma supposition. Un code simple a donc été fait pour contrôler le servomoteur sur arduino.
 
 Par la suite, l'idée de rajouter une reconnaissance d'image a été amenée, l'arduino a été abandonné et la Raspberry Pi a pris sa place. Celle-ci pouvait aussi commander le servomoteur tout en ayant une caméra et avait accès à la reconnaissance d'image via tesseract-ocr.
 
-Tout cela a été codé en python, l'idée est la suivante : Prendre une photo avec la caméra, faire du traitement d'image pour faciliter la lecture de l'OCR (Optical Character Recognition), l'OCR lit le chiffre après traitement, et finalement commande du servomoteur en fonction de la lecture.
+Tout cela a été codé en python, l'idée est la suivante : prendre une photo avec la caméra, faire du traitement d'image pour faciliter la lecture de l'OCR (Optical Character Recognition), l'OCR lit le chiffre après traitement, et finalement commande du servomoteur en fonction de la lecture.
 
-La caméra est utilisée sur python via la librairie picamera, le traitement d'image se fait avec OpenCv, l'OCR utilise pytesseract (Un package qui permet d'utiliser tesseract-ocr sur python), pour le contrôle des Led (flash) et du servomoteur la libraire RPi.GPIO sera utilisée.
+La caméra est utilisée sur python via la librairie picamera, le traitement d'image se fait avec OpenCv, l'OCR utilise pytesseract (un package qui permet d'utiliser tesseract-ocr sur python), pour le contrôle des Led (flash) et du servomoteur la libraire RPi.GPIO sera utilisée.
 
-J'ai passé beaucoup de temps sur le traitement d'image, a essayé de la traiter pour que l'OCR puisse lire les chiffres plus facilement. En changeant le contraste, en faisant du treshold, en flouant l'image, en utilisant des systèmes propres à OpenCV comme de l'érosion (Éroder les pixels blancs sur l'image), parfois tout en même temps. Malheureusement rien de cela n'a été concluant. Voici un exemple de ce que je faisais lorsque je n'avais que une seule Led pour servir de flash : 
+J'ai passé beaucoup de temps sur le traitement d'image, ai essayé de la traiter pour que l'OCR puisse lire les chiffres plus facilement. En changeant le contraste, en faisant du treshold, en flouant l'image, en utilisant des systèmes propres à OpenCV comme de l'érosion (éroder les pixels blancs sur l'image), parfois tout en même temps. Malheureusement, rien de cela n'a été concluant. Voici un exemple de ce que je faisais lorsque je n'avais que une seule Led pour servir de flash : 
 
 \begin{figure}[H]
 \centering
@@ -234,28 +234,28 @@ J'ai passé beaucoup de temps sur le traitement d'image, a essayé de la traiter
 \caption{Exemple traitement d'image}
 \end{figure}
 
-Premierement on remarque qu'un même traitement ne fonctionne pas pour les différentes rangées, le 8 devient illisible contrairement au 4 et au 7. Pour pallier ce problème j'ai rajouté plus de LED pour le flash. Cependant cela n'a pas réglé le problème général, à savoir que l'OCR ne sait pas reconnaitre le charactère parfaitement réalisé (Dans cette image-ci le 4).
+Premièrement, on remarque qu'un même traitement ne fonctionne pas pour les différentes rangées, le 8 devient illisible contrairement au 4 et au 7. Pour pallier ce problème, j'ai rajouté plus de LED pour le flash. Cependant, cela n'a pas réglé le problème général, à savoir que l'OCR ne sait pas reconnaître le caractère parfaitement réalisé (dans cette image-ci le 4).
 
-Après discussion avec mes professeurs il est ressortit que le mieux serait d'entrainer l'IA (Intelligence Artificielle), contrôlant l'OCR, avec les images du cadenas. Pour que celle-ci puisse tout simplement mieux reconnaitre les caractères sans même devoir faire beaucoup de traitement d'image. Cependant, ceci dépasse le cadre de l'électronique et se rapproche plus de l'informatique. Et à ce moment là le temps étant proche de la fin de l'année scolaire, on trouvait qu'il était mieux que je finalise tout le reste, à savoir le modèle 3D final, et les codes pour tout contrôler.
+Après discussion avec mes professeurs il est ressorti que le mieux serait d'entraîner l'IA (Intelligence Artificielle), contrôlant l'OCR, avec les images du cadenas. Pour que celle-ci puisse tout simplement mieux reconnaître les caractères sans même devoir faire beaucoup de traitement d'image. Cependant, ceci dépasse le cadre de l'électronique et se rapproche plus de l'informatique. Et à ce moment-là, le temps étant proche de la fin de l'année scolaire, on trouvait qu'il était mieux que je finalise tout le reste, à savoir le modèle 3D final, et les codes pour tout contrôler.
 
 \section{Améliorations possibles pour la suite}
 Je vais expliquer ici les différentes améliorations possibles si le projet est repris une année suivante.
 
 \subsection{Entrainement de l'IA pour l'OCR}
 
-Comme expliqué dans la section informatique, le meilleure chose possible pour que l'OCR puisse détecter les chiffres est de l'entrainer. Cela est probablement la solution la plus efficace actuellement. Cependant il ne faudra pas négliger le traitement d'image qui devra quand même être un minimum présent.
+Comme expliqué dans la section informatique, la meilleure chose possible pour que l'OCR puisse détecter les chiffres est de l'entraîner. Cela est probablement la solution la plus efficace actuellement. Cependant, il ne faudra pas négliger le traitement d'image qui devra quand même être un minimum présent.
 
 \subsection{Servomoteur avec un couple plus faible}
 
-Le servomoteur utilisé est le FS5103R, celui-ci à un couple de 3kg.cm/41.74oz.in. Il a suffisemment de couple pour pouvoir tourner les chiffres du cadenas, cependant il prends beaucoup de place. Ce que j'ai réalisé ne contient qu'un seul servomoteur, mais normalement il en faut trois. En essayant de faire un modèle avec trois servomoteur je me suis rendu compte que c'était extrêmenent compliqué car ils prennent beaucoup de place chacun. L'idée serait donc de vérifier si un servomoteur avec un couple plus faible, 1.5kg/cm par exemple, arrive à faire tourner les chiffres du cadenas. Parce que ceux-ci prendront moins de place et faciliterait donc la modélisation d'un modèle ayant trois servomoteurs.
+Le servomoteur utilisé est le FS5103R, celui-ci a un couple de 3kg.cm/41.74oz.in. Il a suffisamment de couple pour pouvoir tourner les chiffres du cadenas, cependant il prends beaucoup de place. Ce que j'ai réalisé ne contient qu'un seul servomoteur, mais normalement il en faut trois. En essayant de faire un modèle avec trois servomoteurs, je me suis rendu compte que c'était extrêmement compliqué car ils prennent beaucoup de place chacun. L'idée serait donc de vérifier si un servomoteur avec un couple plus faible, 1.5kg/cm par exemple, arrive à faire tourner les chiffres du cadenas. Parce que ceux-ci prendront moins de place et faciliteraient donc la modélisation d'un modèle ayant trois servomoteurs.
 
 \section{Conclusion}
 
 En conclusion, la partie électronique est finie, la Raspberry Pi sert de cerveau pour le projet. Elle commande un servomoteur ainsi que des led et une caméra pour la reconnaissance d'image.
 
-Plusieurs modèles 3D ont été réalisé pour convenir au mieux au besoin du projet et un boitier final a pu être réalisé dans les délais attendu. Une roue spécialisée a aussi été créer afin de pouvoir faire tourner le cadenas sans problème.
+Plusieurs modèles 3D ont été réalisé pour convenir au mieux au besoin du projet et un boîtier final a pu être réalisé dans les délais attendu. Une roue spécialisée a aussi été créer afin de pouvoir faire tourner le cadenas sans problème.
 
-Finalement la reconnaissance d'image n'a pas été conluante , celle-ci n'est pas suffisante pour reconnaitre les caractères présent sur le cadenas malgré un tas de traitement d'image. Cependant la solution d'entrainer une IA afin d'arriver à la reconnaissance est prometteuse.
+Finalement, la reconnaissance d'image n'a pas été concluante, celle-ci n'est pas suffisante pour reconnaître les caractères présents sur le cadenas malgré un tas de traitement d'image. Cependant, la solution d'entraîner une IA afin d'arriver à la reconnaissance est prometteuse.
 %----------------------------------------------------------------------------------------
 %	REFERENCE LIST
 %----------------------------------------------------------------------------------------
@@ -265,6 +265,10 @@ Finalement la reconnaissance d'image n'a pas été conluante , celle-ci n'est pa
 \bibitem{Datasheet}
 Datasheet FS5103R, consulté en Février-Juin
 \\{ \url{https://media.digikey.com/pdf/data\%20sheets/adafruit\%20pdfs/154_web.pdf}}
+
+\bibitem{Github}
+Lien Github du projet avec toutes les ressources
+\\{ \url{https://github.com/AudricDenbroeder/LockerCracker}}
  
 \end{thebibliography}
 
